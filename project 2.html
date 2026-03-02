@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced Productivity Tracker</title>
+
+<style>
+:root {
+    --primary: #007bff;
+    --success: #28a745;
+    --danger: #dc3545;
+    --warning: #ffc107;
+    --bg: #f4f6f9;
+    --card: #ffffff;
+    --text: #333;
+}
+
+body.dark {
+    --bg: #1e1e2f;
+    --card: #2c2c3e;
+    --text: #f1f1f1;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 20px;
+}
+
+.app {
+    max-width: 850px;
+    margin: auto;
+    background: var(--card);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+h2 {
+    text-align: center;
+}
+
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.add-btn { background: var(--primary); color: white; }
+.complete-btn { background: var(--success); color: white; }
+.delete-btn { background: var(--danger); color: white; }
+
+input, select {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.form-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    background: var(--bg);
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 5px solid var(--primary);
+}
+
+.priority-high { border-left-color: var(--danger); }
+.priority-medium { border-left-color: var(--warning); }
+.priority-low { border-left-color: var(--success); }
+
+.completed {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+    <div class="top-bar">
+        <h2>📊 Productivity Tracker</h2>
+        <button onclick="toggleDarkMode()">🌙 Dark Mode</button>
+    </div>
+
+    <div class="form-group">
+        <input type="text" id="taskInput" placeholder="Enter task">
+        <input type="date" id="dueDate">
+        <input type="time" id="dueTime">
+        <select id="priority">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+        </select>
+        <button class="add-btn" onclick="addTask()">Add</button>
+    </div>
+
+    <div class="stats">
+        <span>Total: <span id="totalCount">0</span></span>
+        <span>Completed: <span id="completedCount">0</span></span>
+        <span>Pending: <span id="pendingCount">0</span></span>
+    </div>
+
+    <ul id="taskList"></ul>
+</div>
+
+<script>
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+if ("Notification" in window) {
+    Notification.requestPermission();
+}
+
+function saveTasks() {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+function showNotification(title, message) {
+    if (Notification.permission === "granted") {
+        new Notification(title, { body: message });
+    }
+}
+
+function updateStats() {
+    const total = tasks.length;
+    const completed = tasks.filter(t => t.completed).length;
+    document.getElementById("totalCount").textContent = total;
+    document.getElementById("completedCount").textContent = completed;
+    document.getElementById("pendingCount").textContent = total - completed;
+}
+
+function formatDateTime(dateString) {
+    if (!dateString) return "No deadline";
+    const date = new Date(dateString);
+    return date.toLocaleString();
+}
+
+function renderTasks() {
+    const taskList = document.getElementById("taskList");
+    taskList.innerHTML = "";
+
+    tasks.forEach((task, index) => {
+
+        const li = document.createElement("li");
+        li.classList.add(`priority-${task.priority}`);
+        if (task.completed) li.classList.add("completed");
+
+        li.innerHTML = `
+            <div>
+                <strong>${task.name}</strong><br>
+                Due: ${formatDateTime(task.dateTime)} | Priority: ${task.priority}
+            </div>
+            <div>
+                <button class="complete-btn" onclick="toggleComplete(${index})">✔</button>
+                <button class="delete-btn" onclick="deleteTask(${index})">✖</button>
+            </div>
+        `;
+
+        taskList.appendChild(li);
+    });
+
+    updateStats();
+}
+
+function addTask() {
+    const name = document.getElementById("taskInput").value.trim();
+    const date = document.getElementById("dueDate").value;
+    const time = document.getElementById("dueTime").value;
+    const priority = document.getElementById("priority").value;
+
+    if (!name) return alert("Enter task!");
+
+    let dateTime = null;
+    if (date && time) {
+        dateTime = new Date(date + "T" + time).toISOString();
+    }
+
+    tasks.push({ name, dateTime, priority, completed: false });
+    saveTasks();
+    renderTasks();
+
+    showNotification("Task Added ✅", name);
+
+    document.getElementById("taskInput").value = "";
+    document.getElementById("dueDate").value = "";
+    document.getElementById("dueTime").value = "";
+}
+
+function toggleComplete(index) {
+    tasks[index].completed = !tasks[index].completed;
+    saveTasks();
+    renderTasks();
+}
+
+function deleteTask(index) {
+    showNotification("Task Deleted ❌", tasks[index].name);
+    tasks.splice(index, 1);
+    saveTasks();
+    renderTasks();
+}
+
+// Check every 30 seconds for due tasks
+setInterval(() => {
+    const now = new Date();
+
+    tasks.forEach(task => {
+        if (task.dateTime && !task.completed) {
+            const taskTime = new Date(task.dateTime);
+
+            if (
+                now >= taskTime &&
+                now - taskTime < 30000 // within 30 seconds window
+            ) {
+                showNotification("⏰ Task Reminder!", task.name + " is due now.");
+            }
+        }
+    });
+
+}, 30000);
+
+function toggleDarkMode() {
+    document.body.classList.toggle("dark");
+}
+
+renderTasks();
+</script>
+
+</body>
+</html>
