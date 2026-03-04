@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aradhya Pandey | Portfolio</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: 'Segoe UI', sans-serif;
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#0f172a;
+    color:#f1f5f9;
+}
+
+/* HEADER */
+header{
+    background:#0f172a;
+    padding:20px 40px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:sticky;
+    top:0;
+    border-bottom:1px solid #1e293b;
+}
+
+.logo{
+    font-size:20px;
+    font-weight:bold;
+    color:#38bdf8;
+}
+
+nav a{
+    color:#f1f5f9;
+    text-decoration:none;
+    margin-left:20px;
+    font-weight:500;
+}
+
+nav a:hover{
+    color:#38bdf8;
+}
+
+/* SECTIONS */
+section{
+    padding:80px 20px;
+    text-align:center;
+}
+
+/* HOME */
+#home h1{
+    font-size:40px;
+    margin-bottom:15px;
+}
+
+.highlight{
+    color:#38bdf8;
+}
+
+.btn{
+    display:inline-block;
+    padding:12px 25px;
+    background:#38bdf8;
+    color:#0f172a;
+    border-radius:25px;
+    text-decoration:none;
+    margin-top:20px;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+.btn:hover{
+    background:#0ea5e9;
+}
+
+/* ABOUT */
+#about{
+    background:#1e293b;
+}
+
+.tech-stack{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:15px;
+    margin-top:20px;
+}
+
+.tech{
+    background:#0f172a;
+    padding:10px 20px;
+    border-radius:20px;
+    border:1px solid #38bdf8;
+}
+
+/* SERVICES */
+.services-container{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:20px;
+}
+
+.service-box{
+    background:#1e293b;
+    padding:25px;
+    width:280px;
+    border-radius:10px;
+    transition:0.3s;
+    border:1px solid #334155;
+}
+
+.service-box:hover{
+    transform:translateY(-5px);
+    border-color:#38bdf8;
+}
+
+/* CONTACT */
+#contact{
+    background:#1e293b;
+}
+
+.contact-links a{
+    display:inline-block;
+    margin:10px;
+    color:#38bdf8;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+/* FOOTER */
+footer{
+    background:#0f172a;
+    padding:20px;
+    border-top:1px solid #1e293b;
+}
+
+/* WHATSAPP FLOAT */
+.whatsapp-float{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    background:#25d366;
+    width:55px;
+    height:55px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 4px 10px rgba(0,0,0,0.3);
+}
+
+.whatsapp-float img{
+    width:28px;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+    #home h1{
+        font-size:28px;
+    }
+    .services-container{
+        flex-direction:column;
+        align-items:center;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">Aradhya.dev</div>
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#contact">Contact</a>
+    </nav>
+</header>
+
+<!-- Home -->
+<section id="home">
+    <h1>Hi 👋 I'm <span class="highlight">Aradhya Pandey</span></h1>
+    <p>
+        1st Year Computer Science Student | Aspiring Software Developer <br><br>
+        Passionate about Web Development, Problem Solving & Continuous Learning.
+    </p>
+    <a href="#services" class="btn">View My Work</a>
+</section>
+
+<!-- About -->
+<section id="about">
+    <h2>About Me</h2>
+    <p>
+        I am a dedicated Computer Science student focused on building clean, responsive 
+        and user-friendly applications. I believe in consistency, discipline and growth.
+    </p>
+
+    <h3 style="margin-top:25px;">⚡Learning tech tech skills like</h3>
+    <div class="tech-stack">
+        <div class="tech">C</div>
+        <div class="tech">Python</div>
+        
+        <div class="tech">HTML</div>
+        <div class="tech">CSS</div>
+        <div class="tech">JavaScript</div>
+        <div class="tech">Git & GitHub</div>
+         <div class="tech">Uses of diffrent types of AI</div>
+    </div>
+</section>
+
+<!-- Services-->
+<section id="services">
+    <h2>What I Can Do</h2>
+    <div class="services-container">
+        <div class="service-box">
+            <h3>🌐 Web Development</h3>
+            <p>Responsive and modern websites using HTML, CSS & JavaScript.</p>
+        </div>
+        <div class="service-box">
+            <h3>💻 Frontend Projects</h3>
+            <p>Clean UI designs with smooth and simple user experience.</p>
+        </div>
+        <div class="service-box">
+            <h3>📚 Academic Projects</h3>
+            <p>Beginner-level software & DSA based projects.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Contact -->
+<section id="contact">
+    <h2>Let's Connect</h2>
+    <p>Open to internships, collaborations & learning opportunities 🚀</p>
+
+    <div class="contact-links">
+        <a href="mailto:arsdhyapandey@gmail.com">📧 Email</a>
+        <a href="https://github.com/arsdhyapandey-lang" target="_blank">💻 GitHub</a>
+        <a href="https://wa.me/918004740591" target="_blank">📱 WhatsApp</a>
+    </div>
+
+
+
+
+
+<a href="https://wa.me/918004740591" class="whatsapp-float" target="_blank">
+    <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png">
+</a><br>    
+<footer>
+    <p>© 2026 Aradhya Pandey | Built with assion and Smartness 💙</p>
+</footer>
+</section>
+</body>
+</html>
